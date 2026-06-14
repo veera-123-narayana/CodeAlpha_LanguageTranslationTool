@@ -188,38 +188,39 @@ app.post('/api/translate/document', async (req, res) => {
     const buffer = Buffer.from(documentBase64, 'base64');
     let extractedText = '';
 
-   if (fileType === 'application/pdf') {
-  try {
-    const parser: any = pdfParse;
-    const data = await parser(buffer);
-
-    extractedText = data?.text || '';
-
-    if (!extractedText.trim()) {
-      throw new Error('No text could be extracted from the PDF.');
-    }
-  } catch (pdfErr: any) {
-    throw new Error(
-      'Failed to parse PDF document structure: ' +
-      (pdfErr?.message || String(pdfErr))
-    );
-  }
-}
+      if (fileType === 'application/pdf') {
+      try {
+        const parser: any = pdfParse;
+        const data = await parser(buffer);
+    
+        extractedText = data?.text || '';
+    
+        if (!extractedText.trim()) {
+          throw new Error('No text could be extracted from the PDF.');
+        }
+      } catch (pdfErr: any) {
+        throw new Error(
+          'Failed to parse PDF document structure: ' +
+          (pdfErr?.message || String(pdfErr))
+        );
+      }
+    
     } else if (
-      fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+      fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       fileName?.endsWith('.docx')
     ) {
       try {
         const result = await mammoth.extractRawText({ buffer });
         extractedText = result.value;
       } catch (docxErr: any) {
-        throw new Error('Failed to parse DOCX document structure: ' + docxErr.message);
+        throw new Error(
+          'Failed to parse DOCX document structure: ' + docxErr.message
+        );
       }
+    
     } else {
-      // Assume simple text format
       extractedText = buffer.toString('utf8');
     }
-
     if (!extractedText || extractedText.trim().length === 0) {
       return res.status(400).json({ error: 'Document appears to be empty or unreadable.' });
     }
