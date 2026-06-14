@@ -9,7 +9,7 @@ import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
 import mammoth from 'mammoth';
 
-import pdfParse from 'pdf-parse';
+import * as pdfParse from 'pdf-parse';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -188,13 +188,23 @@ app.post('/api/translate/document', async (req, res) => {
     const buffer = Buffer.from(documentBase64, 'base64');
     let extractedText = '';
 
-    if (fileType === 'application/pdf') {
-      try {
-        const data = await pdfParse(buffer);
-        extractedText = data.text;
-      } catch (pdfErr: any) {
-        throw new Error('Failed to parse PDF document structure: ' + pdfErr.message);
-      }
+   if (fileType === 'application/pdf') {
+  try {
+    const parser: any = pdfParse;
+    const data = await parser(buffer);
+
+    extractedText = data?.text || '';
+
+    if (!extractedText.trim()) {
+      throw new Error('No text could be extracted from the PDF.');
+    }
+  } catch (pdfErr: any) {
+    throw new Error(
+      'Failed to parse PDF document structure: ' +
+      (pdfErr?.message || String(pdfErr))
+    );
+  }
+}
     } else if (
       fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
       fileName?.endsWith('.docx')
