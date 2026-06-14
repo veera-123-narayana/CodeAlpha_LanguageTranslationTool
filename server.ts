@@ -9,7 +9,7 @@ import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
 import mammoth from 'mammoth';
 
-import * as pdfParse from 'pdf-parse';
+import pdfParse from 'pdf-parse';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
