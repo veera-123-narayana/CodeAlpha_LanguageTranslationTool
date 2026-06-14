@@ -9,35 +9,10 @@ import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
 import mammoth from 'mammoth';
 
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const pdfParseModule = require('pdf-parse');
-const PDFParseClass = pdfParseModule.PDFParse;
-
-const pdfParse = async (buffer: Buffer): Promise<{ text: string }> => {
-  if (typeof PDFParseClass === 'function') {
-    const parser = new PDFParseClass({ data: buffer });
-    try {
-      const textResult = await parser.getText();
-      return { text: textResult.text };
-    } finally {
-      try {
-        await parser.destroy();
-      } catch (err) {
-        // ignore resource destruction errors
-      }
-    }
-  } else if (typeof pdfParseModule === 'function') {
-    return pdfParseModule(buffer);
-  } else if (pdfParseModule && typeof pdfParseModule.default === 'function') {
-    return pdfParseModule.default(buffer);
-  } else {
-    throw new Error('No PDF parsing engine found in the loaded pdf-parse module');
-  }
-};
+import pdfParse from 'pdf-parse';
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Set up JSON parsing with a high limit (50mb) for base64 images and documents
 app.use(express.json({ limit: '50mb' }));
