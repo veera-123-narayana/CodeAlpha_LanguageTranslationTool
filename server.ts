@@ -190,8 +190,7 @@ app.post('/api/translate/document', async (req, res) => {
 
       if (fileType === 'application/pdf') {
       try {
-        const parser: any = pdfParse;
-        const data = await parser(buffer);
+       const data = await pdfParse(buffer);
     
         extractedText = data?.text || '';
     
