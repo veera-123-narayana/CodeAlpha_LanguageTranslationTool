@@ -1,2 +1,20 @@
-# CodeAlpha_LanguageTranslationTool
-AI Language Translation Assistant Pro is an AI-powered multilingual translation platform that supports 100+ languages. It provides real-time text, voice, document, and image translation with automatic language detection, speech features, OCR support, and a modern responsive interface for seamless global communication. 🌍🤖🚀
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
+
+# Run and deploy your AI Studio app
+
+This contains everything you need to run your app locally.
+
+View your app in AI Studio: https://ai.studio/apps/3ec0106c-6002-401b-94d1-c17ef6c595be
+
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

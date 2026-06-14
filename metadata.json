@@ -1,0 +1,6 @@
+{
+  "name": "CodeAlpha_LanguageTranslationTool",
+  "description": "Professional enterprise-grade translation tool featuring real-time speech-to-text, text-to-speech, interactive document and OCR image translations, and exhaustive historical analytics.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
